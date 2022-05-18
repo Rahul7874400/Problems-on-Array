@@ -1,0 +1,84 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Solution{
+    private:
+    int solve(int arr[],int n)
+    {
+        int maxEnd = arr[0],res = arr[0];
+        
+        for(int i=1;i<n;i++)
+        {
+            maxEnd = max(maxEnd+arr[i],arr[i]);
+            res = max(res,maxEnd);
+        }
+        
+        return res;
+    }
+    
+    public:
+    // arr: input array
+    // num: size of array
+    //Function to find maximum circular subarray sum.
+    int circularSubarraySum(int arr[], int num){
+        
+        // naive approach
+        /*
+        int res = INT_MIN;
+        
+        for(int i=0;i<num;i++){
+            int sum = 0;
+            for(int j = 0;j<num;j++){
+                int index = (i+j)%num;
+                sum+=arr[index];
+                res = max(res,sum);
+            }
+        }
+        
+        return res;
+        
+        */
+        
+        int l_sum = solve(arr,num);
+        
+        if(l_sum<0)
+        return l_sum;
+        
+        int sum =0;
+        for(int i=0;i<num;i++){
+            sum+=arr[i];
+            arr[i] = -arr[i];
+        }
+        
+        return max(l_sum,sum+solve(arr,num));
+    }
+};
+
+int main()
+ {
+	int T;
+	
+	//testcases
+	cin>> T;
+	
+	while (T--)
+	{
+	    int num;
+	    
+	    //size of array
+	    cin>>num;
+	    int arr[num];
+	    
+	    //inserting elements
+	    for(int i = 0; i<num; i++)
+	        cin>>arr[i];
+	        
+	    Solution ob;
+	    //calling function
+	    cout << ob.circularSubarraySum(arr, num) << endl;
+	    
+	}
+	
+	return 0;
+} 
