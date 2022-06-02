@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Solution 
+{
+    private:
+    bool isFeassible(int A[],int N,int M,int ans){
+        int req = 1,sum = 0;
+        
+        for(int i=0;i<N;i++){
+            if(A[i]>ans)
+            return false;
+            if(sum+A[i]>ans){
+                req++;
+                sum = A[i];
+            }
+            else
+            sum+=A[i];
+        }
+        
+        return (req<=M);
+    }
+    public:
+    //Function to find minimum number of pages.
+    int findPages(int A[], int N, int M) 
+    {
+        int low = INT_MAX,high = 0;
+        
+        for(int i=0;i<N;i++){
+            high+=A[i];
+            low = min(low,A[i]);
+        }
+        
+        int res = -1;
+        
+        while(low<=high){
+            int mid = low+(high-low)/2;
+            
+            if(isFeassible(A,N,M,mid)){
+                res = mid;
+                high = mid-1;
+            }
+            
+            else
+            low = mid+1;
+        }
+        
+        return res;
+    }
+};
+
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        int A[n];
+        for(int i=0;i<n;i++){
+            cin>>A[i];
+        }
+        int m;
+        cin>>m;
+        Solution ob;
+        cout << ob.findPages(A, n, m) << endl;
+    }
+    return 0;
+}
